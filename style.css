@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+:root {
+  --black:   #020617;
+  --dark:    #0f172a;
+  --panel:   #1e293b;
+  --border:  #334155;
+  --cyan:    #38bdf8;
+  --cyan2:   #0ea5e9;
+  --green:   #4ade80;
+  --red:     #f43f5e;
+  --yellow:  #facc15;
+  --text:    #e2e8f0;
+  --muted:   #64748b;
+  --subtle:  #94a3b8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, nav, .label, .tag, button, .btn {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Shared nav ── */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(2,6,23,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--panel);
+}
+.site-nav .logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--text); letter-spacing: 0.08em;
+}
+.site-nav .logo span { color: var(--cyan); }
+.site-nav ul { list-style: none; display: flex; gap: 32px; }
+.site-nav ul a {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px; letter-spacing: 0.12em;
+  color: var(--muted); text-transform: uppercase;
+  transition: color 0.2s;
+}
+.site-nav ul a:hover { color: var(--cyan); text-decoration: none; }
+
+/* ── Shared footer ── */
+.site-footer {
+  border-top: 1px solid var(--panel);
+  padding: 48px 40px;
+  display: flex; flex-wrap: wrap;
+  justify-content: space-between; align-items: center;
+  gap: 24px;
+}
+.site-footer .logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--text);
+}
+.site-footer .logo span { color: var(--cyan); }
+.site-footer p { font-size: 13px; color: var(--muted); }
+.site-footer nav a {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase; margin-left: 24px;
+}
+.site-footer nav a:hover { color: var(--cyan); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 4px;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; cursor: pointer;
+  border: none; transition: all 0.2s; text-decoration: none;
+}
+.btn-primary {
+  background: var(--cyan); color: var(--black);
+}
+.btn-primary:hover { background: var(--cyan2); text-decoration: none; color: var(--black); }
+.btn-ghost {
+  background: transparent; color: var(--cyan);
+  border: 1px solid var(--cyan);
+}
+.btn-ghost:hover { background: rgba(56,189,248,0.08); text-decoration: none; }
+
+/* ── Noise overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ── Doc page (privacy, terms, support) ── */
+.doc-page {
+  max-width: 760px; margin: 0 auto;
+  padding: 120px 40px 80px;
+}
+.doc-page h1 {
+  font-size: 42px; font-weight: 700;
+  color: var(--text); margin-bottom: 8px;
+}
+.doc-page .doc-meta {
+  font-size: 13px; color: var(--muted);
+  font-family: 'Oswald', sans-serif; letter-spacing: 0.08em;
+  margin-bottom: 48px; padding-bottom: 24px;
+  border-bottom: 1px solid var(--panel);
+}
+.doc-page h2 {
+  font-size: 22px; font-weight: 600;
+  color: var(--cyan); margin: 40px 0 12px;
+  letter-spacing: 0.06em;
+}
+.doc-page p { color: var(--subtle); margin-bottom: 16px; }
+.doc-page ul { color: var(--subtle); padding-left: 24px; margin-bottom: 16px; }
+.doc-page ul li { margin-bottom: 6px; }
+.doc-page a { color: var(--cyan); }
+
+@media (max-width: 640px) {
+  .site-nav { padding: 0 20px; }
+  .site-nav ul { display: none; }
+  .doc-page { padding: 100px 20px 60px; }
+  .site-footer { padding: 40px 20px; flex-direction: column; align-items: flex-start; }
+  .site-footer nav { margin-top: 16px; }
+  .site-footer nav a { margin-left: 0; margin-right: 20px; }
+}
