@@ -1,0 +1,12 @@
+# app-ads.txt
+# BehindClimbing
+# https://behindclimbing.github.io/app-ads.txt
+#
+# BehindClimbing does not display third-party advertisements.
+# This file is provided for compliance purposes only.
+#
+# If you are an authorized seller or reseller wishing to serve ads
+# within this app, contact: metaclubus@gmail.com
+#
+# No entries below indicates this app does not participate in
+# programmatic advertising.
