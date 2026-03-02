@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BehindClimbing — Climb Smart. Summit Safe.</title>
+  <meta name="description" content="Real-time air quality, 3D summit view, safe place finder, and forecast radar built exclusively for climbers.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 120px 80px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 40%, rgba(56,189,248,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(74,222,128,0.04) 0%, transparent 60%);
+    }
+    .mountain-bg {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 55%; z-index: 0; opacity: 0.18;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px; letter-spacing: 0.22em;
+      color: var(--cyan); text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(48px, 7vw, 86px);
+      font-weight: 700; line-height: 1.0;
+      color: var(--text); margin-bottom: 24px;
+    }
+    .hero h1 em { color: var(--cyan); font-style: normal; }
+    .hero p {
+      font-size: 20px; color: var(--subtle);
+      max-width: 520px; margin-bottom: 40px; line-height: 1.6;
+    }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+    .appstore-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--text); color: var(--black);
+      padding: 12px 24px; border-radius: 4px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .appstore-badge:hover { opacity: 0.85; text-decoration: none; color: var(--black); }
+
+    /* ── Stats strip ── */
+    .stats {
+      display: flex; gap: 0;
+      border-top: 1px solid var(--panel);
+      border-bottom: 1px solid var(--panel);
+    }
+    .stat {
+      flex: 1; padding: 40px;
+      border-right: 1px solid var(--panel);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Oswald', sans-serif;
+      font-size: 42px; font-weight: 700; color: var(--cyan);
+      display: block; margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 13px; color: var(--muted);
+      font-family: 'Oswald', sans-serif; letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Features ── */
+    .section { padding: 100px 80px; }
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; letter-spacing: 0.22em;
+      color: var(--cyan); text-transform: uppercase; margin-bottom: 16px;
+    }
+    .section h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700; color: var(--text); margin-bottom: 60px;
+      max-width: 600px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px; background: var(--panel);
+      border: 1px solid var(--panel);
+    }
+    .feature {
+      background: var(--black);
+      padding: 48px 40px;
+      transition: background 0.2s;
+    }
+    .feature:hover { background: var(--dark); }
+    .feature-icon {
+      font-size: 32px; margin-bottom: 20px; display: block;
+    }
+    .feature h3 {
+      font-size: 22px; font-weight: 600; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .feature p { font-size: 16px; color: var(--muted); line-height: 1.65; }
+    .feature-tag {
+      display: inline-block; margin-top: 20px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--cyan); border: 1px solid rgba(56,189,248,0.3);
+      padding: 4px 12px; border-radius: 2px;
+    }
+
+    /* ── Advisory strip ── */
+    .advisory {
+      margin: 0 80px;
+      border: 1px solid rgba(74,222,128,0.2);
+      background: rgba(74,222,128,0.04);
+      padding: 40px 48px;
+      display: flex; gap: 32px; align-items: center;
+    }
+    .advisory-icon { font-size: 48px; flex-shrink: 0; }
+    .advisory h3 {
+      font-size: 20px; color: var(--green); margin-bottom: 8px;
+    }
+    .advisory p { font-size: 16px; color: var(--muted); }
+
+    /* ── Plans preview ── */
+    .plans { padding: 100px 80px; }
+    .plans h2 { font-size: 42px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .plans-sub { color: var(--muted); margin-bottom: 48px; font-size: 17px; }
+    .plans-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      background: var(--panel);
+      border: 1px solid var(--panel);
+    }
+    .plan {
+      background: var(--black); padding: 40px 32px;
+      position: relative;
+    }
+    .plan.featured { background: var(--dark); }
+    .plan-badge {
+      position: absolute; top: 20px; right: 20px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--black); background: var(--cyan);
+      padding: 4px 10px; border-radius: 2px;
+    }
+    .plan-tier {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .plan h3 { font-size: 28px; color: var(--text); margin-bottom: 24px; }
+    .plan ul { list-style: none; padding: 0; margin-bottom: 32px; }
+    .plan ul li {
+      font-size: 15px; color: var(--subtle);
+      padding: 8px 0; border-bottom: 1px solid var(--panel);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .plan ul li::before { content: '—'; color: var(--cyan); flex-shrink: 0; }
+
+    /* ── CTA band ── */
+    .cta-band {
+      padding: 100px 80px; text-align: center;
+      border-top: 1px solid var(--panel);
+    }
+    .cta-band h2 { font-size: 52px; color: var(--text); margin-bottom: 16px; }
+    .cta-band p { font-size: 18px; color: var(--muted); margin-bottom: 40px; }
+
+    @media (max-width: 900px) {
+      .hero { padding: 100px 24px 60px; }
+      .section, .plans { padding: 60px 24px; }
+      .advisory { margin: 0 24px; padding: 32px 24px; flex-direction: column; }
+      .features-grid, .plans-grid { grid-template-columns: 1fr; }
+      .stats { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid var(--panel); }
+      .cta-band { padding: 60px 24px; }
+      .cta-band h2 { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="logo">BEHIND<span>CLIMBING</span></div>
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="privacy-policy.html">Privacy</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <svg class="mountain-bg" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7dd3fc"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+    </defs>
+    <polygon points="0,400 200,180 400,300 600,80 800,220 1000,40 1200,160 1440,100 1440,400" fill="url(#mg)"/>
+    <polygon points="0,400 180,240 380,340 560,140 760,280 960,100 1160,200 1380,150 1440,180 1440,400" fill="#0f172a" opacity="0.7"/>
+    <polygon points="590,80 600,52 610,80" fill="white" opacity="0.9"/>
+    <polygon points="990,40 1000,10 1010,40" fill="white" opacity="0.9"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">iOS 26 — Built for Climbers</p>
+    <h1>Climb Smart.<br><em>Summit Safe.</em></h1>
+    <p>Real-time air quality, 3D summit overview, safe place finder, and forecast radar — built exclusively for climbers who push higher.</p>
+    <div class="hero-cta">
+      <a href="#" class="appstore-badge">&#x2B07; Download on the App Store</a>
+      <a href="#features" class="btn btn-ghost">See Features</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><span class="stat-num">4</span><span class="stat-label">Core Modules</span></div>
+  <div class="stat"><span class="stat-num">3</span><span class="stat-label">Plan Tiers</span></div>
+  <div class="stat"><span class="stat-num">iOS 26</span><span class="stat-label">Native Platform</span></div>
+  <div class="stat"><span class="stat-num">0</span><span class="stat-label">Ads. Ever.</span></div>
+</div>
+
+<!-- Features -->
+<section class="section" id="features">
+  <p class="section-label">What's Inside</p>
+  <h2>Every feature exists for one reason — the climb.</h2>
+  <div class="features-grid">
+    <div class="feature">
+      <span class="feature-icon">🌬️</span>
+      <h3>Air Condition</h3>
+      <p>Real-time AQI at base, mid, and summit layers. Wind direction, speed, and full pollutant breakdown including PM2.5, ozone, NO2, and SO2. Climber advisory tells you whether the air supports a push.</p>
+      <span class="feature-tag">WeatherKit</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">⛰️</span>
+      <h3>Mountain 3D</h3>
+      <p>Three-dimensional peak overview with marked waypoints, route lines, and status indicators. Switch between terrain, snow depth, wind flow, and temperature zone layers. Tap any waypoint for live conditions.</p>
+      <span class="feature-tag">MapKit</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🏕️</span>
+      <h3>Safe Zone</h3>
+      <p>Find shelters, water sources, restrooms, rest areas, and mountain rescue posts near your position. Each shows distance, elevation, rating, and climber-specific tags. Navigate directly from the app.</p>
+      <span class="feature-tag">Core Location</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">📡</span>
+      <h3>Forecast Radar</h3>
+      <p>Animated Doppler radar showing precipitation cells over 12 hours. Hourly summit conditions, storm cell ETA, and a calculated summit window with recommended ascent, summit, and descent times.</p>
+      <span class="feature-tag">WeatherKit</span>
+    </div>
+  </div>
+</section>
+
+<!-- Advisory -->
+<div class="advisory">
+  <div class="advisory-icon">🧗</div>
+  <div>
+    <h3>The summit won't wait — neither should your data.</h3>
+    <p>BehindClimbing gives you elevation-accurate, real-time conditions so every decision on the wall is an informed one. No generalised forecasts. No city-level AQI. Data at the altitude you actually climb at.</p>
+  </div>
+</div>
+
+<!-- Plans -->
+<section class="plans" id="plans">
+  <p class="section-label">Pricing</p>
+  <h2>Choose Your Plan</h2>
+  <p class="plans-sub">All plans include the core four modules. Higher tiers unlock advanced data layers and extended forecasts.</p>
+  <div class="plans-grid">
+    <div class="plan">
+      <p class="plan-tier">Tier 1</p>
+      <h3>Low</h3>
+      <ul>
+        <li>Real-time AQI</li>
+        <li>Basic wind data</li>
+        <li>Safe places map</li>
+        <li>24-hour radar</li>
+      </ul>
+      <a href="marketing.html#plans" class="btn btn-ghost" style="width:100%;justify-content:center;">See Low Plan</a>
+    </div>
+    <div class="plan featured">
+      <span class="plan-badge">Popular</span>
+      <p class="plan-tier">Tier 2</p>
+      <h3>Moderate</h3>
+      <ul>
+        <li>Everything in Low</li>
+        <li>Altitude layer AQI</li>
+        <li>3D mountain view</li>
+        <li>72-hour radar</li>
+        <li>Summit risk window</li>
+      </ul>
+      <a href="marketing.html#plans" class="btn btn-primary" style="width:100%;justify-content:center;">See Moderate Plan</a>
+    </div>
+    <div class="plan">
+      <p class="plan-tier">Tier 3</p>
+      <h3>High</h3>
+      <ul>
+        <li>Everything in Moderate</li>
+        <li>Full pollutant breakdown</li>
+        <li>5-day summit forecast</li>
+        <li>O2 saturation estimate</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="marketing.html#plans" class="btn btn-ghost" style="width:100%;justify-content:center;">See High Plan</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Ready to climb smarter?</h2>
+  <p>Download BehindClimbing for iOS 26 and take the mountain seriously.</p>
+  <a href="#" class="appstore-badge">&#x2B07; Download on the App Store</a>
+</div>
+
+<footer class="site-footer">
+  <div>
+    <div class="logo">BEHIND<span>CLIMBING</span></div>
+    <p style="margin-top:8px;">Climb Smart. Summit Safe.</p>
+  </div>
+  <nav>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-of-use.html">Terms of Use</a>
+    <a href="support.html">Support</a>
+    <a href="marketing.html">Plans</a>
+  </nav>
+  <p style="width:100%;margin-top:24px;font-size:13px;color:var(--muted);">&copy; 2026 BehindClimbing. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
